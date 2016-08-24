@@ -79,8 +79,7 @@ if __name__ == "__main__":
 	canvas = vcs.init(size=2)
 
 	# Open file
-	#odir = '/cmip5_css02/data/cmip5/output1/NIMR-KMA/HadGEM2-AO/historical/mon/atmos/Amon/r1i1p1/huss/1/' # Put your local directory here
-        odir = '/Users/lee1043/Documents/Research/UV-CDAT/test_data/'
+	odir = '/cmip5_css02/data/cmip5/output1/NIMR-KMA/HadGEM2-AO/historical/mon/atmos/Amon/r1i1p1/huss/1/' # Put your local directory here
 	nc = 'huss_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
 	f = cdms.open(odir+nc)
 
@@ -101,8 +100,8 @@ if __name__ == "__main__":
         Blue_marble_download = True
         #Blue_marble_download = False
       
-	#Nighttimeimage = True
-	Nighttimeimage = False
+	Nighttimeimage = True
+	#Nighttimeimage = False
 
         if Blue_marble_download:
 		# Download background image for map; http://visibleearth.nasa.gov/

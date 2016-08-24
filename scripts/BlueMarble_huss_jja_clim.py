@@ -1,3 +1,10 @@
+################################################################################################# 
+# This Python script plots JJA climatology at surface level, which given from one of CMIP5 models
+# It uses NASA's BlueMarble image as background map image
+# 
+# Ji-Woo Lee, LLNL, August 2016
+################################################################################################# 
+
 import vcs
 import cdms2 as cdms
 import cdtime, cdutil

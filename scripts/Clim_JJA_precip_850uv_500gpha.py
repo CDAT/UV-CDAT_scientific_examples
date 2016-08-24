@@ -11,8 +11,8 @@ import genutil
 #-------------------------------------------------
 # plot_area is domain selector, 
 #           available options are: global / asia
-#plot_area = "asia"
-plot_area = "global" 
+plot_area = "asia"
+#plot_area = "global" 
 
 start_year = 1950
 end_year = 2000

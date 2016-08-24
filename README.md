@@ -2,6 +2,19 @@
 
 Scientific examples for UV-CDAT usage.
 
+* BlueMarble_huss_satellite_view.py
+
+![Alt text](./plots/BlueMarble_huss_satellite_view_daytimeview.png?raw=true "Specific Humidity Snapshot")
+![Alt text](./plots/BlueMarble_huss_satellite_view_nighttimeview.png?raw=true "Specific Humidity Snapshot")
+
+* BlueMarble_pr_jja_clim.py 
+
+![Alt text](./plots/BlueMarble_pr_jja_clim.png?raw=true "Seasonal -JJA- Precipitation Climatology")
+
+* BlueMarble_huss_satellite_view.py 
+
+![Alt text](./plots/BlueMarble_huss_jja_clim.png?raw=true "Seasonal -JJA- Precipitation Climatology")
+
 * Clim_JJA_precip.py 
 
 ![Alt text](./plots/example_sfc_pr_jja_clim.png?raw=true "Seasonal -JJA- Precipitation Climatology")
@@ -24,6 +37,6 @@ Scientific examples for UV-CDAT usage.
 
 * Clim_JJA_precip_850uv_500gpha.py
 
-* 
-
+![Alt text](./plots/Clim_JJA_precip_850uv_500gpha_global.png?raw=true "Seasonal -JJA- Climatology")
+![Alt text](./plots/Clim_JJA_precip_850uv_500gpha_asia.png?raw=true "Seasonal -JJA- Climatology")
 

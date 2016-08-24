@@ -1,3 +1,10 @@
+################################################################################################# 
+# This Python script plots JJA climatology at surface level, which given from one of CMIP5 models
+# It uses NASA's BlueMarble image as background map image
+# 
+# Ji-Woo Lee, LLNL, August 2016
+################################################################################################# 
+
 import vcs
 import cdms2 as cdms
 import cdtime, cdutil
@@ -82,7 +89,7 @@ if __name__ == "__main__":
 	f = cdms.open(odir+nc)
 
 	# Load variable
-	d = f('pr',longitude=(-180,180))*86400. # Set longitude range to Blue Marble image
+	d = f('pr',longitude=(-180,180))*86400. # Set longitude range to Blue Marble image, kg/m2/s1 to mm/day
 	d.units='mm/day'
 
 	# Climatology calculation
@@ -101,7 +108,7 @@ if __name__ == "__main__":
 	isofill.levels = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
 	isofill.ext_2 ="y"
 
-        # Option for getting background image
+        # Option for dowonloading background image
         Blue_marble_download = True
         #Blue_marble_download = False
 
