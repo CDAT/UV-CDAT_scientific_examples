@@ -11,8 +11,8 @@ import genutil
 #-------------------------------------------------
 # plot_area is domain selector, 
 #           available options are: global / asia
-plot_area = "asia"
-#plot_area = "global" 
+#plot_area = "asia"
+plot_area = "global" 
 
 start_year = 1950
 end_year = 2000
@@ -76,7 +76,7 @@ da4 = da4 - da4_zonal_avg
 # Create canvas
 canvas = vcs.init(geometry=(900,800))
 canvas.open()
-canvas.drawlogooff()
+#canvas.drawlogooff()
 template = canvas.createtemplate()
 
 # Turn off no-needed information
