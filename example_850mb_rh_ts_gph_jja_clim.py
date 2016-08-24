@@ -1,7 +1,7 @@
 ################################################################################################# 
 # This Python script plots JJA climatology at 850 hPa level, which given from one of CMIP5 models
 # 
-# Ji-Woo Lee (jwlee@llnl.gov), August 2016
+# Ji-Woo Lee, LLNL, August 2016
 ################################################################################################# 
 
 import cdms2 as cdms
