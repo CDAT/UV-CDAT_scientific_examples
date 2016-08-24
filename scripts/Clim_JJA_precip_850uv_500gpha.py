@@ -11,8 +11,8 @@ import genutil
 #-------------------------------------------------
 # plot_area is domain selector, 
 #           available options are: global / asia
-plot_area = "asia"
-#plot_area = "global" 
+#plot_area = "asia"
+plot_area = "global" 
 
 start_year = 1950
 end_year = 2000
@@ -34,8 +34,9 @@ elif plot_area == "asia":
 #=================================================
 # PART 1 : Field to plot --- prepare data array
 #-------------------------------------------------
-data_dir='/Users/lee1043/Documents/Research/UV-CDAT/test_data/'
+data_dir='/work/lee1043/cdat/sample_input/' # Put your input directory path here
 
+# Below files were downloaded from ESGF
 file1 = 'pr_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
 file2 = 'ua_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
 file3 = 'va_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
@@ -90,14 +91,7 @@ iso.datawc_x1 = lon1
 iso.datawc_x2 = lon2
 iso.datawc_y1 = lat1
 iso.datawc_y2 = lat2
-#canvas.setcolormap("rainbow")
-#canvas.setcolormap("sequential")
-#canvas.setcolormap("white_to_green")
-#canvas.setcolormap("white_to_blue")
 canvas.setcolormap("ltbl_to_drkbl")
-#iso.levels = [0, 1, 3, 5, 10, 15, 20, 25, 30, 35]
-#iso.levels = [1, 3, 5, 10, 15, 20, 25, 30, 35]
-#iso.levels = [0.1, 0.5, 2, 4, 6, 8, 10, 12, 15, 20]
 iso.levels = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 iso.ext_1 = "n" # control colorbar edge (arrow extention on/off)
 iso.ext_2 = "y" # control colorbar edge (arrow extention on/off)
@@ -117,7 +111,6 @@ lines.datawc_x2 = lon2
 lines.datawc_y1 = lat1
 lines.datawc_y2 = lat2
 lines.label = 'y'
-#lines.linewidths = [3]
 lines.linewidths = [3,3,3,3,3,3]
 #-- (1) Positive value -- solid line
 lines.levels = range(10,60,lint)
@@ -127,10 +120,9 @@ lines.textcolors = ['blue']
 canvas.plot(da4,lines,template)
 #-- (2) Negative value -- dot line
 lines.levels = range(-60,-10,lint)
-#lines.line = ['dot']
 lines.line = ['dot','dot','dot','dot','dot','dot']
-lines.linecolors = ['blue']
-lines.textcolors = ['blue']
+lines.linecolors = ['red']
+lines.textcolors = ['red']
 canvas.plot(da4,lines,template)
 
 #-------------------------------------------------
