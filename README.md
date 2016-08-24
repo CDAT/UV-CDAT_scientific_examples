@@ -19,10 +19,10 @@ Scientific examples for UV-CDAT usage.
 
 This is condensed version of variability mode driver of PCMDI Metrics Package (PMP) in purpose of providing scientific examples for UV-CDAT. Full version will be available through the PMP (https://github.com/PCMDI/pcmdi_metrics). This script creates plots for Northern Atlantic Oscillation (NAO) and Pacific Decadal Oscillation (PDO) modes which are defined based on EOF analysis.
 
-![Alt text](./plot/NAO_psl_eof1_DJF_ERAINT_1989-2009.png?raw=true "NAO DJF ERAINT")
-![Alt text](./plot/NAO_psl_eof1_DJF_ERAINT_1989-2009_teleconnection.png?raw=true "NAO DJF ERAINT teleconnection")
-![Alt text](./plot/PDO_ts_eof1_DJF_HadISST_1870-2012.png?raw=true "PDO HadISST")
-![Alt text](./plot/PDO_ts_eof1_DJF_HadISST_1870-2012_teleconnection.png?raw=true "PDO HadISST")
+![Alt text](./plots/NAO_psl_eof1_DJF_ERAINT_1989-2009.png?raw=true "NAO DJF ERAINT")
+![Alt text](./plots/NAO_psl_eof1_DJF_ERAINT_1989-2009_teleconnection.png?raw=true "NAO DJF ERAINT teleconnection")
+![Alt text](./plots/PDO_ts_eof1_DJF_HadISST_1870-2012.png?raw=true "PDO HadISST")
+![Alt text](./plots/PDO_ts_eof1_DJF_HadISST_1870-2012_teleconnection.png?raw=true "PDO HadISST")
 
 * Clim_JJA_precip.py 
 
