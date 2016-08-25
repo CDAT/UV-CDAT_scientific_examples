@@ -15,9 +15,9 @@ Scientific examples for UV-CDAT usage.
 
 ![Alt text](./plots/BlueMarble_huss_jja_clim.png?raw=true "Seasonal -JJA- Precipitation Climatology")
 
-* eof_analysis.py
+* eof_analysis_sst.py
 
-![Alt text](./plots/eof_analysis.png?raw=true "Monthly SST EOF analysis")
+![Alt text](./plots/eof_analysis_sst.png?raw=true "Monthly SST EOF analysis")
 
 * Clim_JJA_precip.py 
 
