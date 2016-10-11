@@ -19,6 +19,10 @@ Scientific examples for UV-CDAT usage.
 
 ![Alt text](./plots/eof_analysis_sst.png?raw=true "Monthly SST EOF analysis")
 
+* eof_analysis_slp_np.py
+
+![Alt text](./plots/eof_analysis_slp_np.png?raw=true "DJF Sea Level Pressure EOF analysis for Northern Atlantic Oscillation (NAO)")
+
 * Clim_JJA_precip.py 
 
 ![Alt text](./plots/example_sfc_pr_jja_clim.png?raw=true "Seasonal -JJA- Precipitation Climatology")
