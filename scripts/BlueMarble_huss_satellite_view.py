@@ -1,11 +1,25 @@
+################################################################################################# 
+# This Python script plots snap shot of huss, which given from one of CMIP5 models
+# It uses NASA's BlueMarble image as background map image
+# 
+# Ji-Woo Lee, LLNL, July 2017
+################################################################################################# 
+
 import vcs
 import cdms2 as cdms
 import cdtime, cdutil
+import urllib
+import MV2
+
+# Option for getting background image
+Blue_marble_download = True
+#Blue_marble_download = False
+
+Nighttimeimage = True
+#Nighttimeimage = False
 
 def overlay_png(canvas, png_path, data, data2=None, gm=None, scale=.75, template=None, continents=1, legend_bg_color=None):
 	canvas.open()
-	canvas.put_png_on_canvas(png_path, zoom=scale)
-	canvas.clear()
 	canvas.put_png_on_canvas(png_path, zoom=scale)
 
 	is_portrait = canvas.size < 1
@@ -84,7 +98,9 @@ if __name__ == "__main__":
 	f = cdms.open(odir+nc)
 
 	# Load variable
-	d = f('huss',longitude=(-180,180))*1000. # Set longitude range to Blue Marble image
+	d = f('huss',longitude=(-180,180)) # Set longitude range to Blue Marble image
+	d = MV2.multiply(d, 1000.)
+	d.id = 'huss'
 	d.units='%'
 
 	# Set isofill level
@@ -96,19 +112,11 @@ if __name__ == "__main__":
         isofill.fillareacolors = colors
         isofill.fillareaopacity = range(10,100,100/len(colors))
         
-        # Option for getting background image
-        Blue_marble_download = True
-        #Blue_marble_download = False
-      
-	Nighttimeimage = True
-	#Nighttimeimage = False
-
         if Blue_marble_download:
 		# Download background image for map; http://visibleearth.nasa.gov/
         	bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.png'
 		if Nighttimeimage:
         		bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg'
-  		import urllib
 		bg_image = 'bg_image_blue_marble.png'
         	bg_image_frame = open(bg_image,'wb')
         	bg_image_frame.write(urllib.urlopen(bg_image_link).read())
@@ -124,12 +132,3 @@ if __name__ == "__main__":
 		canvas.png("BlueMarble_huss_satellite_view_nighttimeview")
 	else:
 		canvas.png("BlueMarble_huss_satellite_view_daytimeview")
-
-        # Option for animation
-        #animate = True
-        animate = False
-
-        if animate:
-		canvas.animate.create()
-		#canvas.animate.run()
-		#canvas.animate.stop()
