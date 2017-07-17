@@ -2,17 +2,24 @@
 # This Python script plots JJA climatology at surface level, which given from one of CMIP5 models
 # It uses NASA's BlueMarble image as background map image
 # 
-# Ji-Woo Lee, LLNL, August 2016
+# Ji-Woo Lee, LLNL, July 2017
 ################################################################################################# 
 
 import vcs
 import cdms2 as cdms
 import cdtime, cdutil
+import urllib
+import MV2
+
+# Option for getting background image
+Blue_marble_download = True
+#Blue_marble_download = False
+
+#Nighttimeimage = True
+Nighttimeimage = False
 
 def overlay_png(canvas, png_path, data, data2=None, gm=None, scale=.75, template=None, continents=1):
 	canvas.open()
-	canvas.put_png_on_canvas(png_path, zoom=scale)
-	canvas.clear()
 	canvas.put_png_on_canvas(png_path, zoom=scale)
 
 	is_portrait = canvas.size < 1
@@ -74,14 +81,8 @@ def overlay_png(canvas, png_path, data, data2=None, gm=None, scale=.75, template
 
 
 if __name__ == "__main__":
-	# The blue marble file I found has an aspect ratio of 2x1, so we'll use that aspect for the canvas
-	canvas = vcs.init(size=2)
 
-	cmap = vcs.createcolormap("my_colormap", "rainbow") #you can specify which colormap you want to copy from in the second argument
-	for i in range(16, 240):
-		r, g, b, _ = cmap.getcolorcell(i)
-		cmap.setcolorcell(i, r, g, b, 50) # You can pick an alpha value that looks nice; 0-100
-	canvas.setcolormap(cmap)
+        # DATA ---
 
 	# Open file
 	odir = '/cmip5_css02/data/cmip5/output1/NIMR-KMA/HadGEM2-AO/historical/mon/atmos/Amon/r1i1p1/pr/1/' # Put your data directory here
@@ -89,7 +90,8 @@ if __name__ == "__main__":
 	f = cdms.open(odir+nc)
 
 	# Load variable
-	d = f('pr',longitude=(-180,180))*86400. # Set longitude range to Blue Marble image, kg/m2/s1 to mm/day
+	d = f('pr',longitude=(-180,180))
+        d = MV2.multiply(d,86400.) # Set longitude range to Blue Marble image, kg/m2/s1 to mm/day
 	d.units='mm/day'
 
 	# Climatology calculation
@@ -103,28 +105,32 @@ if __name__ == "__main__":
 	d_jja.id = 'pr'
 	d_jja.model = 'HadGEM2-AO'
 
+        # PLOT ---
+
+	# The blue marble file I found has an aspect ratio of 2x1, so we'll use that aspect for the canvas
+	canvas = vcs.init(size=2)
+
 	# Set isofill level
 	isofill = vcs.createisofill()
-	isofill.levels = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
-	isofill.ext_2 ="y"
+	isofill.levels = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42]
+        colors = vcs.getcolors(isofill.levels)
+        isofill.fillareacolors = colors
+        isofill.missing = (0,0,0,0)
 
-        # Option for dowonloading background image
-        Blue_marble_download = True
-        #Blue_marble_download = False
 
         if Blue_marble_download:
-		# Download background image for map; http://visibleearth.nasa.gov/
-        	bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.png'
-        	#bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg'
-  		import urllib
-		bg_image = 'bg_image_blue_marble.png'
-        	bg_image_frame = open(bg_image,'wb')
-        	bg_image_frame.write(urllib.urlopen(bg_image_link).read())
-        	bg_image_frame.close() 
-        
+                # Download background image for map; http://visibleearth.nasa.gov/
+                bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.png'
+                if Nighttimeimage:
+                        bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg'
+                bg_image = 'bg_image_blue_marble.png'
+                bg_image_frame = open(bg_image,'wb')
+                bg_image_frame.write(urllib.urlopen(bg_image_link).read())
+                bg_image_frame.close()
+
         else:
-		# Substitute your path to blue_marble.png
-        	bg_image = './world.topo.200407.3x5400x2700.png'
+                # Substitute your path to blue_marble.png
+                bg_image = './bg_image_blue_marble.png'
 
 	overlay_png(canvas, bg_image, d_jja, gm=isofill)
 	canvas.png("BlueMarble_pr_jja_clim")
