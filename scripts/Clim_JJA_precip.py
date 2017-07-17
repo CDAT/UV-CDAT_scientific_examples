@@ -1,12 +1,14 @@
 ################################################################################################# 
 # This Python script plots JJA climatology at surface level, which given from one of CMIP5 models
 # 
-# Ji-Woo Lee, LLNL, August 2016
+# Ji-Woo Lee, LLNL, July 2017
 ################################################################################################# 
+
 import cdms2 as cdms
 import cdutil
 import cdtime
 import vcs
+import MV2
 
 #================================================================================================
 # Data
@@ -17,7 +19,8 @@ nc = 'pr_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
 f = cdms.open(odir+nc)
 
 # Load variable ---
-d = f('pr',longitude=(-180,180))*86400. # kg/m2/s1 to mm/day
+d = f('pr',longitude=(-180,180))
+d = MV2.multiply(d, 86400.) # kg/m2/s1 to mm/day
 d.units='mm/day'
 
 # Time period for climatology calculation ---
@@ -25,7 +28,7 @@ start_year = 1949
 end_year = 2010
 
 start_time = cdtime.comptime(start_year)
-end_time =cdtime.comptime(end_year)
+end_time = cdtime.comptime(end_year)
 
 # Calculate JJA seasonal climatology ---
 d_jja = cdutil.JJA.climatology(d(time=(start_time,end_time)))
@@ -45,15 +48,18 @@ canvas.open()
 iso = canvas.createisofill()
 
 # Color setup ---
-levs = range(3,33,3) # [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
-iso.levels = levs
-iso.ext_2 ="y"
-
 cmap = vcs.createcolormap("my_colormap", "rainbow") #you can specify which colormap you want to copy from in the second argument
 for i in range(255):
   r, g, b, _ = cmap.getcolorcell(i)
   cmap.setcolorcell(i, r, g, b, 50) # Transparency: 0-100
 canvas.setcolormap(cmap)
+
+levels = list(range(3,33,3)) # [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+levels.append(1.e20)
+iso.levels = levels
+iso.missing = (0,0,0,0)
+colors = vcs.getcolors(levels,colors=range(16,240))
+iso.fillareacolors = colors
 
 # Plot ---
 canvas.plot(d_jja,iso)
