@@ -1,9 +1,15 @@
+################################################################################################# 
+# This Python script plots EOF analysis of DJF mean sea-level pressure from reanalysis
+# 
+# Ji-Woo Lee, LLNL, July 2017
+################################################################################################# 
+
 import cdms2 as cdms
 import cdutil
 import cdtime
 from eofs.cdms import Eof
 import vcs
-import string
+import MV2
 
 #===========================================================================================================
 # DATA
@@ -20,12 +26,11 @@ end_time = cdtime.comptime(end_year)
 
 # Load variable ---
 d = f('psl',time=(start_time,end_time),longitude=(-180,180),latitude=(20,90)) # Provide proper variable name
+d = MV2.divide(d, 100.) # Pa to hPa
+d.units = 'hPa'
 
 # Get DJF seasonal mean time series ---
 d_DJF = cdutil.DJF(d)
-
-# Unit adjustment, Pa to hPa
-d_DJF = d_DJF/100.
 
 # EOF (take only first variance mode...) ---
 solver = Eof(d_DJF, weights='area')
@@ -42,7 +47,7 @@ pc = pc * -1
 # Plot
 #-----------------------------------------------------------------------------------------------------------
 # Create canvas ---
-canvas = vcs.init(geometry=(900,800))
+canvas = vcs.init()
 
 canvas.open()
 template = canvas.createtemplate()
@@ -54,11 +59,12 @@ template.blank(['title','mean','min','max','dataname','crdate','crtime',
 # Color setup ---
 canvas.setcolormap('bl_to_darkred')
 iso = canvas.createisofill()
-iso.levels = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
-iso.ext_1 = 'y' # control colorbar edge (arrow extention on/off)
-iso.ext_2 = 'y' # control colorbar edge (arrow extention on/off)
-cols = vcs.getcolors(iso.levels)
-iso.fillareacolors = cols
+levels = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+levels.insert(0,-1.e20)
+levels.append(1.e20)
+iso.levels = levels
+colors = vcs.getcolors(levels,colors=range(16,240))
+iso.fillareacolors = colors
 iso.missing = 0 # Set missing value color as same as background
 
 # Map projection ---
