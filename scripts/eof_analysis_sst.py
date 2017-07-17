@@ -44,8 +44,7 @@ pc = pc * -1
 # Plot
 #-----------------------------------------------------------------------------------------------------------
 # Create canvas ---
-canvas = vcs.init(geometry=(900,800))
-#canvas = vcs.init()
+canvas = vcs.init()
 
 canvas.open()
 template = canvas.createtemplate()
