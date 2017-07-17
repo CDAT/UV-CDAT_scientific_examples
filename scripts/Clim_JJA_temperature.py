@@ -47,9 +47,13 @@ canvas.open()
 iso = canvas.createisofill()
 
 # Color setup ---
-levs = range(-16,40,2) # [-16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38]
-iso.levels = levs
 canvas.setcolormap("rainbow")
+
+levels = range(-14,40,2) # [-16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38]
+iso.levels = levels
+iso.missing = (0,0,0,0)
+colors = vcs.getcolors(levels,colors=range(16,240))
+iso.fillareacolors = colors
 
 # Plot ---
 canvas.plot(d_jja,iso)
