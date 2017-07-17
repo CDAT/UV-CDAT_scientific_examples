@@ -41,7 +41,7 @@ d_jja.model = 'HadGEM2-AO'
 # Plot
 #------------------------------------------------------------------------------------------------
 # Create canvas ---
-canvas = vcs.init(geometry=(1200,800))
+canvas = vcs.init()
 canvas.open()
 
 # Set plot type ---

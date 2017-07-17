@@ -7,6 +7,7 @@ import cdms2 as cdms
 import cdutil
 import cdtime
 import vcs
+import MV2
 
 #================================================================================================
 # Data
@@ -17,7 +18,8 @@ nc = 'tas_Amon_HadGEM2-AO_historical_r1i1p1_186001-200512.nc'
 f = cdms.open(odir+nc)
 
 # Load variable ---
-d = f('tas',latitude=(-60,80),longitude=(0,360))-273.15
+d = f('tas',latitude=(-60,80),longitude=(0,360))
+d = MV2.subtract(d, 273.15) # K to C
 d.units='degree C'
 
 # Time period for climatology calculation ---
@@ -38,7 +40,7 @@ d_jja.model = 'HadGEM2-AO'
 # Plot
 #------------------------------------------------------------------------------------------------
 # Create canvas ---
-canvas = vcs.init(geometry=(1200,800))
+canvas = vcs.init()
 canvas.open()
 
 # Set plot type ---
