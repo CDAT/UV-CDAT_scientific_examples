@@ -8,6 +8,15 @@
 import vcs
 import cdms2 as cdms
 import cdtime, cdutil
+import numpy as np
+import urllib
+
+# Option for getting background image
+Blue_marble_download = True
+#Blue_marble_download = False
+
+#Nighttimeimage = True
+Nighttimeimage = False
 
 def overlay_png(canvas, png_path, data, data2=None, gm=None, scale=.75, template=None, continents=1):
 	canvas.open()
@@ -74,14 +83,8 @@ def overlay_png(canvas, png_path, data, data2=None, gm=None, scale=.75, template
 
 
 if __name__ == "__main__":
-	# The blue marble file I found has an aspect ratio of 2x1, so we'll use that aspect for the canvas
-	canvas = vcs.init(size=2)
 
-	cmap = vcs.createcolormap("my_colormap", "rainbow_no_grn") #you can specify which colormap you want to copy from in the second argument
-	for i in range(16, 240):
-		r, g, b, _ = cmap.getcolorcell(i)
-		cmap.setcolorcell(i, r, g, b, 50) # You can pick an alpha value that looks nice; 0-100
-	canvas.setcolormap(cmap)
+	# DATA ---
 
 	# Open file
 	odir = '/cmip5_css02/data/cmip5/output1/NIMR-KMA/HadGEM2-AO/historical/mon/atmos/Amon/r1i1p1/huss/1/' # Put your local directory here
@@ -103,26 +106,40 @@ if __name__ == "__main__":
 	d_jja.id = 'huss'
 	d_jja.model = 'HadGEM2-AO'
 
+	# PLOT ---
+
+        # The blue marble file I found has an aspect ratio of 2x1, so we'll use that aspect for the canvas
+        canvas = vcs.init(size=2)
+
+        cmap = vcs.createcolormap("my_colormap", "rainbow_no_grn") #you can specify which colormap you want to copy from in the second argument
+        for i in range(16, 240):
+                r, g, b, _ = cmap.getcolorcell(i)
+                cmap.setcolorcell(i, r, g, b, 50) # You can pick an alpha value that looks nice; 0-100
+        canvas.setcolormap(cmap)
+
 	# Set isofill level
 	isofill = vcs.createisofill()
 
-        # Option for getting background image
-        Blue_marble_download = True
-        #Blue_marble_download = False
+	# Adding -1.e20 / 1.e20 at ends of levels turns extensions on
+        tmp = np.round(np.ndarray.tolist(np.arange(0., 0.026, 0.002)), decimals=3)
+        levels = np.ndarray.tolist(np.round(tmp,decimals=3))
+	isofill.levels = levels
+	colors = vcs.getcolors(levels,colors=range(16,240))
+	isofill.fillareacolors = colors
 
         if Blue_marble_download:
-		# Download background image for map; http://visibleearth.nasa.gov/
-        	bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.png'
-        	#bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg'
-  		import urllib
-		bg_image = 'bg_image_blue_marble.png'
-        	bg_image_frame = open(bg_image,'wb')
-        	bg_image_frame.write(urllib.urlopen(bg_image_link).read())
-        	bg_image_frame.close() 
-        
+                # Download background image for map; http://visibleearth.nasa.gov/
+                bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.png'
+                if Nighttimeimage:
+                        bg_image_link = 'http://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg'
+                bg_image = 'bg_image_blue_marble.png'
+                bg_image_frame = open(bg_image,'wb')
+                bg_image_frame.write(urllib.urlopen(bg_image_link).read())
+                bg_image_frame.close()
+
         else:
-		# Substitute your path to blue_marble.png
-        	bg_image = './world.topo.200407.3x5400x2700.png'
+                # Substitute your path to blue_marble.png
+                bg_image = './bg_image_blue_marble.png'
 
 	overlay_png(canvas, bg_image, d_jja, gm=isofill)
 	canvas.png("BlueMarble_huss_jja_clim")
