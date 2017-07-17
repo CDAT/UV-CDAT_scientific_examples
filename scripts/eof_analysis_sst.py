@@ -1,9 +1,14 @@
+################################################################################################# 
+# This Python script plots EOF analysis of sea-surface temperature observation
+# 
+# Ji-Woo Lee, LLNL, July 2017
+################################################################################################# 
+
 import cdms2 as cdms
 import cdutil
 import cdtime
 from eofs.cdms import Eof
 import vcs
-import string
 
 #===========================================================================================================
 # DATA
@@ -40,6 +45,7 @@ pc = pc * -1
 #-----------------------------------------------------------------------------------------------------------
 # Create canvas ---
 canvas = vcs.init(geometry=(900,800))
+#canvas = vcs.init()
 
 canvas.open()
 template = canvas.createtemplate()
@@ -51,11 +57,12 @@ template.blank(['title','mean','min','max','dataname','crdate','crtime',
 # Color setup ---
 canvas.setcolormap('bl_to_darkred')
 iso = canvas.createisofill()
-iso.levels = [-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-iso.ext_1 = 'y' # control colorbar edge (arrow extention on/off)
-iso.ext_2 = 'y' # control colorbar edge (arrow extention on/off)
-cols = vcs.getcolors(iso.levels)
-iso.fillareacolors = cols
+levels = [-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+levels.insert(0,-1.e20)
+levels.append(1.e20)
+iso.levels = levels
+colors = vcs.getcolors(levels,colors=range(16,240))
+iso.fillareacolors = colors
 iso.missing = 0 # Set missing value color as same as background
 
 # Map projection ---
