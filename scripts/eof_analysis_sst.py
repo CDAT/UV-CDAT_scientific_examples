@@ -86,4 +86,4 @@ plot_title.string = 'EOF first mode, HadISST('+str(start_year)+'-'+str(end_year)
 canvas.plot(plot_title)
 
 # Save output as image file --- 
-canvas.png('eof_analysis.png')
+canvas.png('eof_analysis_sst.png')
